@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{%block title%}Homepage{% endblock %}
+
+{%block content%}
+<h1>Homepage</h1>
+    <form action="/pokemons" method="GET">
+        <label for="">Build Team For:</label>
+        <select name="version_group" id="" class="form-control" style="width: 50%">
+            {% for (version_group, id) in version_groups %}
+            <option value="{{id}}">{{version_group}}</option>
+            {% endfor %}
+        </select>
+        <button class="btn btn-primary">Select Game</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .vertical-menu{
+        width: 200px;
+        height: 93vh;
+        overflow-y: auto;
+    }
+    .vertical-menu-moves{
+        height: 50vh;
+        overflow-y: auto;
+    }
+    .vertical-menu li {
+        background-color: #eee; /* Grey background color */
+        color: black; /* Black text color */
+        display: block; /* Make the links appear below each other */
+        padding: 12px; /* Add some padding */
+        text-decoration: none; /* Remove underline from links */
+    }
+    .pokemon-image {
+        width: 300px;
+    }
+    #card{
+        margin-left: 40px;
+    }
+</style>
+<h1>Pokemons</h1>
+<div style="display: flex;">
+    <div class="vertical-menu">
+        <ul id="pokemon-list" class="list-group">
+            {% for (name, id) in pokemons %}
+            <li data-id="{{id}}"class="list-group-item">{{name.capitalize()}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+        <div id="card" class="card"></div>
+    </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/static/app.js"></script>
+{% endblock %}
