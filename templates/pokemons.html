@@ -4,11 +4,11 @@
 <style>
     .vertical-menu{
         width: 200px;
-        height: 93vh;
+        height: 98vh;
         overflow-y: auto;
     }
     .vertical-menu-moves{
-        height: 50vh;
+        height: 40vh;
         overflow-y: auto;
     }
     .vertical-menu li {
@@ -26,6 +26,8 @@
     }
 </style>
 <h1>Pokemons</h1>
+<h2>{{version_name}}</h2>
+<div style="display: none;" id="version">{{version_name}}</div>
 <div style="display: flex;">
     <div class="vertical-menu">
         <ul id="pokemon-list" class="list-group">
@@ -34,10 +36,90 @@
             {% endfor %}
         </ul>
     </div>
-        <div id="card" class="card"></div>
-    </div>
-    </div>
+    
+    <div id="card" class="card"></div>
+
+    <div class="card" id="move-card"></div>
+    
+    <form action="/teams/create" method="POST">
+            <div id="pokemon_1">
+                <label for="pokemon_select_1">Pokemon 1</label>
+                <select name="pokemon_1" id="pokemon_select_1">
+                    {% for (name, id) in pokemons %}
+                    <option value="{{id}}">{{name}}</option>
+                    {% endfor %}
+                </select>
+                <select name="pokemon_1_move_1" id="pokemon_1_move_1"></select>
+                <select name="pokemon_1_move_2" id="pokemon_1_move_2"></select>
+                <select name="pokemon_1_move_3" id="pokemon_1_move_3"></select>
+                <select name="pokemon_1_move_4" id="pokemon_1_move_4"></select>
+            </div>
+            <div id="pokemon_2">
+                <label for="pokemon_select_2">Pokemon 2</label>
+                <select name="pokemon_2" id="pokemon_select_2">
+                    {% for (name, id) in pokemons %}
+                    <option value="{{id}}">{{name}}</option>
+                    {% endfor %}
+                </select>
+                <select name="pokemon_2_move_1" id="pokemon_2_move_1"></select>
+                <select name="pokemon_2_move_2" id="pokemon_2_move_2"></select>
+                <select name="pokemon_2_move_3" id="pokemon_2_move_3"></select>
+                <select name="pokemon_2_move_4" id="pokemon_2_move_4"></select>
+            </div>
+            <div id="pokemon_3">
+                <label for="pokemon_select_3">Pokemon 3</label>
+                <select name="pokemon_3" id="pokemon_select_3">
+                    {% for (name, id) in pokemons %}
+                    <option value="{{id}}">{{name}}</option>
+                    {% endfor %}
+                </select>
+                <select name="pokemon_3_move_1" id="pokemon_3_move_1"></select>
+                <select name="pokemon_3_move_2" id="pokemon_3_move_2"></select>
+                <select name="pokemon_3_move_3" id="pokemon_3_move_3"></select>
+                <select name="pokemon_3_move_4" id="pokemon_3_move_4"></select>
+            </div>
+            <div id="pokemon_4">
+                <label for="pokemon_select_4">Pokemon 4</label>
+                <select name="pokemon_4" id="pokemon_select_4">
+                    {% for (name, id) in pokemons %}
+                    <option value="{{id}}">{{name}}</option>
+                    {% endfor %}
+                </select>
+                <select name="pokemon_4_move_1" id="pokemon_4_move_1"></select>
+                <select name="pokemon_4_move_2" id="pokemon_4_move_2"></select>
+                <select name="pokemon_4_move_3" id="pokemon_4_move_3"></select>
+                <select name="pokemon_4_move_4" id="pokemon_4_move_4"></select>
+            </div>
+            <div id="pokemon_5">
+                <label for="pokemon_select_5">Pokemon 5</label>
+                <select name="pokemon_5" id="pokemon_select_5">
+                    {% for (name, id) in pokemons %}
+                    <option value="{{id}}">{{name}}</option>
+                    {% endfor %}
+                </select>
+                <select name="pokemon_5_move_1" id="pokemon_5_move_1"></select>
+                <select name="pokemon_5_move_2" id="pokemon_5_move_2"></select>
+                <select name="pokemon_5_move_3" id="pokemon_5_move_3"></select>
+                <select name="pokemon_5_move_4" id="pokemon_5_move_4"></select>
+            </div>
+            <div id="pokemon_6">
+                <label for="pokemon_select_6">Pokemon 6</label>
+                <select name="pokemon_6" id="pokemon_select_6">
+                    {% for (name, id) in pokemons %}
+                    <option value="{{id}}">{{name}}</option>
+                    {% endfor %}
+                </select>
+                <select name="pokemon_6_move_1" id="pokemon_6_move_1"></select>
+                <select name="pokemon_6_move_2" id="pokemon_6_move_2"></select>
+                <select name="pokemon_6_move_3" id="pokemon_6_move_3"></select>
+                <select name="pokemon_6_move_4" id="pokemon_6_move_4"></select>
+            </div>
+            <input type="Submit">
+    </form>
 </div>
+<form action="/">
+    <button>Return</button>
+</form>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/static/app.js"></script>

@@ -1,3 +1,4 @@
+from crypt import methods
 from flask import Flask, jsonify, request, render_template
 from flask_debugtoolbar import DebugToolbarExtension
 import requests
@@ -22,7 +23,19 @@ def show_all_pokemon_version():
 def show_all_pokemon_per_version():
     version_id = int(request.args["version_group"])
 
-    pokedex_url = (requests.get(f"{API_URL}/version-group/{version_id}")).json()["pokedexes"][0]["url"]
+    version_info= (requests.get(f"{API_URL}/version-group/{version_id}")).json()
+    pokedex_url = version_info["pokedexes"][0]["url"]
+    version_name = version_info["name"]
     pokemons = [(pokemon["pokemon_species"]["name"], pokemon["pokemon_species"]["url"].replace(f"{API_URL}/pokemon-species", "").replace("/", "")) for pokemon in requests.get(pokedex_url).json()["pokemon_entries"]]
 
-    return render_template("pokemons.html", pokemons=pokemons)
+    return render_template("pokemons.html", pokemons=pokemons, version_name=version_name)
+
+@app.route("/teams/create", methods=["POST", "GET"])
+def create_team():
+    pokemon1 = request.form.get("pokemon_1")
+    moves = []
+    for i in range(1,5):
+        move = request.form.get(f"pokemon_1_move_{i}")
+        moves.append(move)
+
+    raise
