@@ -8,6 +8,20 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+    <nav>
+        {% if session["CURR_USER"] %}
+        <a href="/logout">Logout</a>
+        {% else %}
+        <a href="/signup">Sign Up</a>
+        <a href="/login">Login</a>
+        {% endif %}
+    </nav>
+    <div>
+    <div class="container">
+        {% for category, message in get_flashed_messages(with_categories=True) %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    </div>
         {% block content %}
         {% endblock%}
 </body>

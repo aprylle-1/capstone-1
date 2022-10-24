@@ -4,6 +4,13 @@ let moveList = document.getElementById("move-list")
 let moveDefinition = document.getElementById("move-card")
 let versionName = document.getElementById("version").innerText
 
+let pokemon1_name = document.getElementById("pokemon_1_name")
+let pokemon2_name = document.getElementById("pokemon_2_name")
+let pokemon3_name = document.getElementById("pokemon_3_name")
+let pokemon4_name = document.getElementById("pokemon_4_name")
+let pokemon5_name = document.getElementById("pokemon_5_name")
+let pokemon6_name = document.getElementById("pokemon_6_name")
+
 const API_URL = "https://pokeapi.co/api/v2"
 
 const getApiInfo = async function(route, id) {
@@ -96,7 +103,7 @@ let pokemon6 = document.getElementById("pokemon_select_6")
 function create_move_options (element, moves) {
     for (let move of moves){
         let select_move = document.createElement("option")
-        select_move.value = move["move"]["name"]
+        select_move.value = (move["move"]["url"]).replace(`${API_URL}/move`, "").replaceAll("/", "")
         select_move.innerText = move["move"]["name"]
         element.append(select_move)
     }
@@ -133,7 +140,7 @@ let pokemons = [pokemon1, pokemon2, pokemon3, pokemon4, pokemon5, pokemon6]
 //     })
 // }
 pokemon1.addEventListener("change", e=>{
-    let pokemon_id = pokemon1.value
+    let pokemon_id = (pokemon1.value.split(" "))[1]
     getApiInfo("pokemon", pokemon_id).then(result=>{
         let moves = result["data"]["moves"]
         console.log(moves)
@@ -158,7 +165,8 @@ pokemon1.addEventListener("change", e=>{
     })
 })
 pokemon2.addEventListener("change", e=>{
-    let pokemon_id = pokemon2.value
+    let pokemon_id = (pokemon2.value.split(" "))[1]
+    pokemon2_name = pokemon2.innerText
     getApiInfo("pokemon", pokemon_id).then(result=>{
         let moves = result["data"]["moves"]
         console.log(moves)
@@ -177,7 +185,8 @@ pokemon2.addEventListener("change", e=>{
     })
 })
 pokemon3.addEventListener("change", e=>{
-    let pokemon_id = pokemon3.value
+    let pokemon_id = (pokemon3.value.split(" "))[1]
+    pokemon3_name = pokemon3.innerText
     getApiInfo("pokemon", pokemon_id).then(result=>{
         let moves = result["data"]["moves"]
         console.log(moves)
@@ -196,7 +205,8 @@ pokemon3.addEventListener("change", e=>{
     })
 })
 pokemon4.addEventListener("change", e=>{
-    let pokemon_id = pokemon4.value
+    let pokemon_id = (pokemon4.value.split(" "))[1]
+    pokemon4_name = pokemon4.innerText
     getApiInfo("pokemon", pokemon_id).then(result=>{
         let moves = result["data"]["moves"]
         console.log(moves)
@@ -215,7 +225,8 @@ pokemon4.addEventListener("change", e=>{
     })
 })
 pokemon5.addEventListener("change", e=>{
-    let pokemon_id = pokemon5.value
+    let pokemon_id = (pokemon5.value.split(" "))[1]
+    pokemon5_name = pokemon5.innerText
     getApiInfo("pokemon", pokemon_id).then(result=>{
         let moves = result["data"]["moves"]
         console.log(moves)
@@ -234,7 +245,8 @@ pokemon5.addEventListener("change", e=>{
     })
 })
 pokemon6.addEventListener("change", e=>{
-    let pokemon_id = pokemon6.value
+    let pokemon_id = (pokemon6.value.split(" "))[1]
+    pokemon6_name = pokemon6.innerText
     getApiInfo("pokemon", pokemon_id).then(result=>{
         let moves = result["data"]["moves"]
         console.log(moves)

@@ -26,7 +26,7 @@
     }
 </style>
 <h1>Pokemons</h1>
-<h2>{{version_name}}</h2>
+<h2>{{version[0]}}</h2>
 <div style="display: none;" id="version">{{version_name}}</div>
 <div style="display: flex;">
     <div class="vertical-menu">
@@ -42,11 +42,12 @@
     <div class="card" id="move-card"></div>
     
     <form action="/teams/create" method="POST">
+            <input type="hidden" name="pokemon_version" value="{{version[1]}}">
             <div id="pokemon_1">
                 <label for="pokemon_select_1">Pokemon 1</label>
                 <select name="pokemon_1" id="pokemon_select_1">
                     {% for (name, id) in pokemons %}
-                    <option value="{{id}}">{{name}}</option>
+                    <option data-id={{id}} value="{{name}} {{id}}">{{name}}</option>
                     {% endfor %}
                 </select>
                 <select name="pokemon_1_move_1" id="pokemon_1_move_1"></select>
@@ -58,7 +59,7 @@
                 <label for="pokemon_select_2">Pokemon 2</label>
                 <select name="pokemon_2" id="pokemon_select_2">
                     {% for (name, id) in pokemons %}
-                    <option value="{{id}}">{{name}}</option>
+                    <option data-id={{id}} value="{{name}} {{id}}">{{name}}</option>
                     {% endfor %}
                 </select>
                 <select name="pokemon_2_move_1" id="pokemon_2_move_1"></select>
@@ -70,7 +71,7 @@
                 <label for="pokemon_select_3">Pokemon 3</label>
                 <select name="pokemon_3" id="pokemon_select_3">
                     {% for (name, id) in pokemons %}
-                    <option value="{{id}}">{{name}}</option>
+                    <option value="{{name }} {{id}}">{{name}}</option>
                     {% endfor %}
                 </select>
                 <select name="pokemon_3_move_1" id="pokemon_3_move_1"></select>
@@ -82,7 +83,7 @@
                 <label for="pokemon_select_4">Pokemon 4</label>
                 <select name="pokemon_4" id="pokemon_select_4">
                     {% for (name, id) in pokemons %}
-                    <option value="{{id}}">{{name}}</option>
+                    <option data-id ={{id}} value="{{name}} {{id}}">{{name}}</option>
                     {% endfor %}
                 </select>
                 <select name="pokemon_4_move_1" id="pokemon_4_move_1"></select>
@@ -94,7 +95,7 @@
                 <label for="pokemon_select_5">Pokemon 5</label>
                 <select name="pokemon_5" id="pokemon_select_5">
                     {% for (name, id) in pokemons %}
-                    <option value="{{id}}">{{name}}</option>
+                    <option data-id={{id}} value="{{name}} {{id}}">{{name}}</option>
                     {% endfor %}
                 </select>
                 <select name="pokemon_5_move_1" id="pokemon_5_move_1"></select>
@@ -106,7 +107,7 @@
                 <label for="pokemon_select_6">Pokemon 6</label>
                 <select name="pokemon_6" id="pokemon_select_6">
                     {% for (name, id) in pokemons %}
-                    <option value="{{id}}">{{name}}</option>
+                    <option data-id={{id}} value="{{name}} {{id}}">{{name}}</option>
                     {% endfor %}
                 </select>
                 <select name="pokemon_6_move_1" id="pokemon_6_move_1"></select>
