@@ -65,7 +65,7 @@ def login():
         if(user):
             session["CURR_USER"] = user.id    
             flash(f"Welcome back {user.username}!", "success")       
-            return redirect("/")
+            return redirect("/teams")
         
         else:
             flash("Incorrect username or password", "danger")

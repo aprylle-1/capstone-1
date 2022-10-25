@@ -79,16 +79,16 @@ class Pokemon(db.Model):
     def get_all_moves(self):
         moves = []
         if (self.move1_id):
-            name = (requests.get(f"{API_URL}/move/{self.move1_id}").json())["name"]
+            name = (requests.get(f"{API_URL}/move/{self.move1_id}").json())
             moves.append((self.move1_id, name))
         if (self.move2_id):
-            name = (requests.get(f"{API_URL}/move/{self.move2_id}").json())["name"]
+            name = (requests.get(f"{API_URL}/move/{self.move2_id}").json())
             moves.append((self.move1_id, name))
         if (self.move3_id):
-            name = (requests.get(f"{API_URL}/move/{self.move3_id}").json())["name"]
+            name = (requests.get(f"{API_URL}/move/{self.move3_id}").json())
             moves.append((self.move1_id, name))
         if (self.move4_id):
-            name = (requests.get(f"{API_URL}/move/{self.move4_id}").json())["name"]
+            name = (requests.get(f"{API_URL}/move/{self.move4_id}").json())
             moves.append((self.move1_id, name)) 
 
         return moves
