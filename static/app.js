@@ -21,8 +21,10 @@ const getApiInfo = async function(route, id) {
 
 pokemonList.addEventListener("click", e => {
     id = e.target.dataset.id
-    card.innerHTML = ""
+    let spinner = '<div class="spinner-border" role="status"><span class="visually-hidden"></span></div>'
+    card.innerHTML = spinner
     getApiInfo("pokemon", id).then(result => {
+        card.innerHTML = ""
         let image = result["data"]["sprites"]["front_default"]
         let img = document.createElement("img")
         img.classList.add("pokemon-image")
@@ -30,18 +32,31 @@ pokemonList.addEventListener("click", e => {
         card.append(img)
 
         let name = result["data"]["forms"][0]["name"]
+        let types = result["data"]["types"]
         //div containing pokemon details
         let div = document.createElement("div")
         div.classList.add("card-body")
 
         let h5 = document.createElement("h5")
+        name = name.charAt(0).toUpperCase() + name.slice(1)
         h5.innerText = name
         h5.setAttribute("id", "pokemon-name")
         h5.setAttribute("data-id", id)
 
         div.append(h5)
 
+        let info = document.createElement("div")
+        info.innerText = "Types:"
+        for (let type of types) {
+            typeContainer = document.createElement("div")
+            typeContainer.innerText = type["type"]["name"]
+            typeContainer.classList.add(type["type"]["name"])
+            typeContainer.classList.add("badge")
+            info.append(typeContainer)
+        }
+        
         card.append(div)
+        card.append(info)
 
         let moves = result["data"]["moves"]
 
@@ -54,14 +69,25 @@ pokemonList.addEventListener("click", e => {
         ul.setAttribute("id", "move-list")
         
         for (let move of moves){
-            let li = document.createElement("li")
-            li.classList.add("list-group-item")
-            li.classList.add("move")
-            li.innerText = move["move"]["name"]
+            let version_groups = move["version_group_details"]
+        
+            let versions = []
+            
+            for (let version_group of version_groups){
+                versions.push(version_group["version_group"]["name"])
+            }
 
-            let id = move["move"]["url"].replace(`${API_URL}/move`, "").replaceAll("/", "")
-            li.setAttribute("data-id", id)
-            ul.append(li)
+            if (versions.includes(versionName)){
+                let li = document.createElement("li")
+                li.classList.add("list-group-item")
+                li.classList.add("move")
+                li.innerText = move["move"]["name"]
+
+                let id = move["move"]["url"].replace(`${API_URL}/move`, "").replaceAll("/", "")
+                li.setAttribute("data-id", id)
+                ul.append(li)
+            }
+ 
         }
 
         movesContainer.append(ul)
@@ -69,24 +95,62 @@ pokemonList.addEventListener("click", e => {
     })
 })
 
+function createMoveInfo(name, power, pp, priority, text)
+{
+
+    let move = document.createElement("div")
+    let nameContainer = document.createElement("h3")
+    nameContainer.innerText = `Name: ${name}`
+    move.append(nameContainer)
+
+    let textContainer = document.createElement("div")
+    textContainer.innerText = text
+    move.append(textContainer)
+
+
+
+    let powerContainer = document.createElement("div")
+    powerContainer.innerText =  `Power: ${power}`
+    move.append(powerContainer)
+
+    let ppContainer = document.createElement("div")
+    ppContainer.innerText = `PP: ${pp}`
+    move.append(ppContainer)
+
+    let priorityContainer = document.createElement("div")
+    priorityContainer.innerText = `Priority: ${priority}`
+    move.append(priorityContainer)
+
+    return move
+}
+
 document.addEventListener("click", e => {
-    if ([...e.target.classList].includes("move")){
+    if ([...e.target.classList].includes("move"))
+    {
 
         let move = e.target
-        let id = move.dataset.id
-
-        
-        getApiInfo("move", id).then(result => {
+        let id = move.dataset.id        
+        moveDefinition.innerText = ""
+        getApiInfo("move", id).then(result => 
+        {
             let moveInfo = result["data"]
-            let textEntries = moveInfo["flavor_text_entries"]
-            moveDefinition.innerText = ""
-            for (let text_entry of textEntries){
-                if (text_entry["version_group"]["name"] == versionName){
-                    moveDefinition.innerText = text_entry["flavor_text"]
-            }
-        }
-    })
-    // console.log(definition)
+
+            let name = moveInfo["name"]
+
+            let power = moveInfo["power"]
+        
+            let pp = moveInfo["pp"]
+
+            let priority = moveInfo["priority"]
+
+
+
+            let text = moveInfo["flavor_text_entries"][0]["flavor_text"].replace("\n", " ")
+
+            let move = createMoveInfo(name, power, pp, priority, text)
+
+            moveDefinition.append(move)
+        })
     }
 })
 
@@ -102,10 +166,21 @@ let pokemon6 = document.getElementById("pokemon_select_6")
 
 function create_move_options (element, moves) {
     for (let move of moves){
-        let select_move = document.createElement("option")
-        select_move.value = (move["move"]["url"]).replace(`${API_URL}/move`, "").replaceAll("/", "")
-        select_move.innerText = move["move"]["name"]
-        element.append(select_move)
+        let version_groups = move["version_group_details"]
+        
+        let versions = []
+        
+        for (let version_group of version_groups){
+            versions.push(version_group["version_group"]["name"])
+        }
+        console.log(versions.includes(versionName))
+        console.log(move["move"]["name"])
+        if (versions.includes(versionName)){
+            let select_move = document.createElement("option")
+            select_move.value = (move["move"]["url"]).replace(`${API_URL}/move`, "").replaceAll("/", "")
+            select_move.innerText = move["move"]["name"]
+            element.append(select_move)
+        }
     }
 }
 

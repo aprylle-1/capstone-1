@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+{% for (pokemon, moves) in pokemons_info %}
+    <div class="col">
+        <div class="card">
+            <div class="card-title">
+                <h2 class="pokemon" data-id="{{pokemon.pokemon_id}}" data-pokemon_id = {{pokemon.id}}>{{pokemon.pokemon_name}}</h2>
+            </div>
+            <div class="card-body">
+                <ul class="moves">
+                    {% for move in moves %}
+                    <li style="display: none;"data-id="{{move}}">{{move}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/static/team.js"></script>
+{% endblock %}

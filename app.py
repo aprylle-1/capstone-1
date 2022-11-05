@@ -126,8 +126,7 @@ def show_team_details(team_id):
     for pokemon in pokemons:
         moves = pokemon.get_all_moves()
         pokemons_info.append((pokemon, moves))
-    raise
-    return render_template("users/team.html", pokemons=pokemons)
+    return render_template("users/team.html", pokemons_info=pokemons_info)
 
 @app.route("/teams/create", methods=["POST", "GET"]) #not finalized yet, consult with mentor
 def create_team():

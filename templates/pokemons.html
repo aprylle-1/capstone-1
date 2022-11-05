@@ -19,29 +19,99 @@
         text-decoration: none; /* Remove underline from links */
     }
     .pokemon-image {
-        width: 300px;
+        width: 15rem;
+        margin: auto;
     }
     #card{
         margin-left: 40px;
     }
+    .normal{
+        background-color: #A8A77A;
+    }
+    .fire{
+        background-color: #EE8130;
+    }
+    .water{
+        background-color: #6390F0;
+    }
+    .electric{
+        background-color: #F7D02C;
+    }
+    .grass{
+        background-color: #7AC74C;
+    }
+    .ice{
+        background-color: #96D9D6;
+    }
+    .fighting{
+        background-color: #C22E28;
+    }
+    .poison{
+        background-color: #A33EA1;
+    }
+    .ground{
+        background-color: #EE8130;
+    }
+    .flying{
+        background-color: #A98FF3;
+    }
+    .psychic{
+        background-color: #F95587;
+    }
+    .bug{
+        background-color: #A6B91A;
+    }
+    .rock{
+        background-color: #B6A136;
+    }
+    .ghost{
+        background-color: #735797;
+    }
+    .dragon{
+        background-color: #6F35FC;
+    }
+    .dark{
+        background-color: #705746;
+    }
+    .steel{
+        background-color: #B7B7CE;
+    }
+    .fairy{
+        background-color: #D685AD;
+    }
+    .badge{
+        padding: 5px 5px 5px 5px;
+        margin: 5px 5px 5px 5px;
+        font-size: 1rem;
+    }
 </style>
-<h1>Pokemons</h1>
-<h2>{{version[0]}}</h2>
-<div style="display: none;" id="version">{{version_name}}</div>
-<div style="display: flex;">
-    <div class="vertical-menu">
-        <ul id="pokemon-list" class="list-group">
-            {% for (name, id) in pokemons %}
-            <li data-id="{{id}}"class="list-group-item">{{name.capitalize()}}</li>
-            {% endfor %}
-        </ul>
-    </div>
-    
-    <div id="card" class="card"></div>
 
-    <div class="card" id="move-card"></div>
-    
-    <form action="/teams/create" method="POST">
+<div class="row">
+    <h1>Pokemons</h1>
+</div>
+<div class="row">
+    <h2 id="version">{{version[0]}}</h2>
+</div>
+<div class="row">
+    <div class="col">
+        <div class="vertical-menu">
+            <ul id="pokemon-list" class="list-group">
+                {% for (name, id) in pokemons %}
+                <li data-id="{{id}}"class="list-group-item">{{name.capitalize()}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col">
+        <div id="card" class="card"></div>
+
+    </div>
+    <div class="col">
+        <p>Select Move from Pokemon's Move List to get more info.</p>
+        <div class="card" id="move-card"></div>
+    </div>
+    <div class="col">
+        <form action="/teams/create" method="POST">
             <input type="hidden" name="pokemon_version" value="{{version[1]}}">
             <div id="pokemon_1">
                 <label for="pokemon_select_1">Pokemon 1</label>
@@ -117,7 +187,9 @@
             </div>
             <input type="Submit">
     </form>
+    </div>
 </div>
+<div style="display: none;" id="version">{{version_name}}</div>
 <form action="/">
     <button>Return</button>
 </form>
