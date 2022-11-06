@@ -1,73 +1,55 @@
 let pokemons = Array.prototype.slice.call(document.querySelectorAll(".pokemon"))
 
 let pokemon_ids = []
-const API_URL = "https://pokeapi.co/api/v2"
 
-const getApiInfo = async function(route, id) {
-    const result = await axios.get(`${API_URL}/${route}/${id}`)
-    const new_result = await result
-    return new_result
-}
+let teamContainer = document.getElementById("team-container")
 
-const getPokemonInfo = function (id){
-    getApiInfo("pokemon", id).then(result=>{
-        let image = result["data"]["sprites"]["front_default"]
-        
-        let imageContainer = document.createElement("img")
-        imageContainer.src = image
-        return imageContainer
-    })
-}
+let moveLists = Array.prototype.slice.call(document.querySelectorAll(".moves"))
 
 for (let i = 0; i < 6; i++){
     let pokemon = pokemons[i]
 
     let id = pokemon.dataset.id
 
-    console.log(id)
-
     getApiInfo("pokemon", id).then(result=>{
-        let image = result["data"]["sprites"]["front_default"]
-        let imageContainer = document.createElement("img")
 
-        imageContainer.src = image
-        pokemon.parentElement.append(imageContainer)
-
+        let name = result["data"]["name"]
+        let sprite = result["data"]["sprites"]["front_default"]
         let types = result["data"]["types"]
-        let info = document.createElement("div")
-        info.innerText = "Types:"
-        for (let type of types) {
-            typeContainer = document.createElement("div")
-            typeContainer.innerText = type["type"]["name"]
-            typeContainer.classList.add(type["type"]["name"])
-            typeContainer.classList.add("badge")
-            info.append(typeContainer)
+
+        let moves = []
+
+        for (let li of moveLists[i].children){
+            let id = li.dataset.id
+            moves.push(id)
         }
 
-        pokemon.parentElement.append(info)
-    })
-}
+        let card = createPokemonCard(name, sprite, types)
+        teamContainer.append(card)
 
-//get divs that contains all moves
-let moveLists = Array.prototype.slice.call(document.querySelectorAll(".moves"))
+        let moveContainer = document.createElement("div")
+        
+        let cardHeader = document.createElement("div")
+        cardHeader.classList.add("card-header")
+        cardHeader.innerText = "Moves"
 
-let moves = []
+        let moveListContainer = document.createElement("ul")
+        moveListContainer.classList.add("list-group")
+        moveListContainer.classList.add("list-group-flush")
 
-for (let moveList of moveLists){
-    let cardBody = moveList.parentElement
-    moveList = Array.prototype.slice.call(moveList.childNodes)
-    
-    let moveContainer = document.createElement("div")
-    cardBody.append(moveContainer)
-    
-    for (let i = 1; i < 8; i += 2){ 
-        let id = moveList[i].dataset.id
-
-        getApiInfo("move", id).then(result=>{
+        for (let move of moves){
             let li = document.createElement("li")
-            li.innerText = result.data.name
-            li.setAttribute("data-id", id)
-            moveContainer.append(li)
-        })
-    }
+
+            getApiInfo("move", move).then(result=>{
+                li.innerText = result["data"]["name"]
+                li.classList.add("list-group-item")
+                moveListContainer.append(li)
+            })
+        }
+        
+        moveContainer.append(cardHeader)
+        moveContainer.append(moveListContainer)
+
+        card.append(moveContainer)
+    })
 }

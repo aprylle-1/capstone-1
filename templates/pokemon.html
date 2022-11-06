@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <h1>{{ version[1] }}</h1>
+            <h2>{{ pokemon.pokemon_name }}</h2>
+        </div>
+    </div>
+
+    <div class="col">
+        <form>
+            <input type="hidden" name="pokemon_id" value="{{pokemon.id}}">
+            {% for i in range(moves|length) %}
+            <span>Move {{i + 1}}</span>
+            <select name="move{{i + 1}}_id">
+                <option value="{{moves[i]}}">{{move_names[i]}}</option>
+            </select>
+            {% endfor %}
+            <button >Edit Pokemon</button>
+        </form>
+    </div>
+</div>
+<script src="/static/pokemon.js"></script>
+{% endblock %}

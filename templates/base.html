@@ -8,13 +8,17 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <style>
+    body{
+        background-color: #2b6777;
+        color: white;
+    }
     .vertical-menu{
         width: 200px;
-        height: 98vh;
+        height: 80vh;
         overflow-y: auto;
     }
     .vertical-menu-moves{
-        height: 40vh;
+        height: 35vh;
         overflow-y: auto;
     }
     .vertical-menu li {
@@ -25,11 +29,12 @@
         text-decoration: none; /* Remove underline from links */
     }
     .pokemon-image {
-        width: 15rem;
+        width: 10rem;
         margin: auto;
     }
     #card{
-        margin-left: 40px;
+        color: black;
+        width: 50%;
     }
     .normal{
         background-color: #A8A77A;
@@ -89,6 +94,9 @@
         padding: 5px 5px 5px 5px;
         margin: 5px 5px 5px 5px;
         font-size: 1rem;
+    }
+    .card{
+        color: black;
     }
 </style>
 <body>
