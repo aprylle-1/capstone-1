@@ -131,6 +131,7 @@ document.addEventListener("click", e => {
     }
 })
 
+/*Event Listeners for Every Pokemon Dropdown --> will create a list of moves available to the Pokemon everytime value is changed*/
 pokemon1.addEventListener("change", e=>{
     let pokemon_id = (pokemon1.value.split(" "))[1]
     getApiInfo("pokemon", pokemon_id).then(result=>{

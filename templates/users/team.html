@@ -12,11 +12,11 @@
     }
 </style>
 <div style="display: none;" class="info">
+    <div id="team-id">{{team_id}}</div>
     {% for (pokemon, moves) in pokemons_info %}
     <div class="card">
         <div class="card-title">
             <span class="pokemon" data-id="{{pokemon.pokemon_id}}" data-pokemon_id = {{pokemon.id}}>{{pokemon.pokemon_name}}</span>
-            <span><a href="/pokemon/edit/{{team_id}}/{{pokemon.id}}" class="btn btn-primary">Edit</a></span>
         </div>
         <div class="card-body">
             <ul class="moves">

@@ -122,16 +122,30 @@ def edit_pokemon(team_id, pokemon_id):
     
     pokemon = Pokemon.query.get(pokemon_id)
     team = Team.query.get(team_id)
-    version_id= team.version_id
-    version_name = (requests.get(f"{API_URL}/version-group/{version_id}")).json()["name"]
+    version_id = team.version_id
+    version_info = (requests.get(f"{API_URL}/version-group/{version_id}")).json()
+    version_name = version_info["name"]
     moves = pokemon.get_all_moves()
 
-    move_names = []
+    move_names = ["","","",""]
 
-    for move in moves:
-        move_name = (requests.get(f"{API_URL}/move/{move}")).json()["name"]
-        move_names.append(move_name)
-    return render_template("pokemon.html", pokemon=pokemon, moves=moves, move_names=move_names, version=(version_id, version_name))
+    pokedex_url = version_info["pokedexes"][0]["url"]
+    pokemons = [(pokemon["pokemon_species"]["name"], pokemon["pokemon_species"]["url"].replace(f"{API_URL}/pokemon-species", "").replace("/", "")) for pokemon in requests.get(pokedex_url).json()["pokemon_entries"]]
+
+    moves_available = (requests.get(f"{API_URL}/pokemon/{pokemon.pokemon_id}")).json()["moves"]
+
+    final_moves = []
+
+    for move_details in moves_available:
+        versions = [version["version_group"]["name"] for version in move_details["version_group_details"]]
+ 
+        if version_name in versions:
+            move_id = int(move_details["move"]["url"].replace(f"{API_URL}/move", "").replace("/", ""))
+            final_moves.append((move_details["move"]["name"], move_id))
+            if move_id in moves:
+                index = moves.index(move_id)
+                move_names[index] = move_details["move"]["name"]
+    return render_template("pokemon.html", pokemon=pokemon, moves=moves, move_names=move_names, version=(version_id, version_name), pokemons=pokemons, final_moves=final_moves)
 
 @app.route("/teams")
 def show_all_teams():

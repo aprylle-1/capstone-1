@@ -6,10 +6,13 @@ let teamContainer = document.getElementById("team-container")
 
 let moveLists = Array.prototype.slice.call(document.querySelectorAll(".moves"))
 
+let teamId = document.getElementById("team-id")
+
 for (let i = 0; i < 6; i++){
     let pokemon = pokemons[i]
 
     let id = pokemon.dataset.id
+    let pokemon_id = pokemon.dataset.pokemon_id
 
     getApiInfo("pokemon", id).then(result=>{
 
@@ -27,29 +30,13 @@ for (let i = 0; i < 6; i++){
         let card = createPokemonCard(name, sprite, types)
         teamContainer.append(card)
 
-        let moveContainer = document.createElement("div")
+        let moveContainer = createMoveContainerForDisplay(moves)
         
-        let cardHeader = document.createElement("div")
-        cardHeader.classList.add("card-header")
-        cardHeader.innerText = "Moves"
-
-        let moveListContainer = document.createElement("ul")
-        moveListContainer.classList.add("list-group")
-        moveListContainer.classList.add("list-group-flush")
-
-        for (let move of moves){
-            let li = document.createElement("li")
-
-            getApiInfo("move", move).then(result=>{
-                li.innerText = result["data"]["name"]
-                li.classList.add("list-group-item")
-                moveListContainer.append(li)
-            })
-        }
-        
-        moveContainer.append(cardHeader)
-        moveContainer.append(moveListContainer)
-
         card.append(moveContainer)
+
+        let a = document.createElement("a")
+        a.innerText = "Edit"
+        a.setAttribute("href", `/pokemon/edit/${teamId.innerText}/${pokemon_id}`)
+        card.append(a)
     })
 }

@@ -122,3 +122,30 @@ function createPokemonCard (name, sprite, types){
 
     return card
 }
+
+function createMoveContainerForDisplay (moves){
+    let moveContainer = document.createElement("div")
+        
+    let cardHeader = document.createElement("div")
+    cardHeader.classList.add("card-header")
+    cardHeader.innerText = "Moves"
+
+    let moveListContainer = document.createElement("ul")
+    moveListContainer.classList.add("list-group")
+    moveListContainer.classList.add("list-group-flush")
+
+    for (let move of moves){
+        let li = document.createElement("li")
+
+        getApiInfo("move", move).then(result=>{
+            li.innerText = result["data"]["name"]
+            li.classList.add("list-group-item")
+            moveListContainer.append(li)
+        })
+    }
+    
+    moveContainer.append(cardHeader)
+    moveContainer.append(moveListContainer)
+
+    return moveContainer
+}

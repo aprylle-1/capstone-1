@@ -1,26 +1,40 @@
 {% extends "base.html" %}
 
 {% block content %}
+<h1>Edit Pokemon</h1>
 <div class="row">
-    <div class="col">
-        <div class="card">
-            <h1>{{ version[1] }}</h1>
-            <h2>{{ pokemon.pokemon_name }}</h2>
-        </div>
-    </div>
-
     <div class="col">
         <form>
             <input type="hidden" name="pokemon_id" value="{{pokemon.id}}">
+            <input type="hidden" name="pokemon_version" value="{{version[0]}}">
+            <select name="pokemon" id="select-pokemon" class="form-control">
+                <option disabled selected hidden value="{{ pokemon.pokemon_id }}">{{ pokemon.pokemon_name }}</option>
+                {% for (name, id) in pokemons %}
+                <option value="{{name}} {{id}}">{{name.capitalize()}}</option>
+                {% endfor %}
+            </select>
             {% for i in range(moves|length) %}
             <span>Move {{i + 1}}</span>
-            <select name="move{{i + 1}}_id">
-                <option value="{{moves[i]}}">{{move_names[i]}}</option>
+            <select id="move{{ i + 1 }}_id" name="move{{ i + 1 }}_id" required class="form-control">
+                <option value="{{ moves[i] }}">{{move_names[i]}}</option>
+                {% for move in final_moves %}
+                <option value="{{ move[1] }}">{{ move[0] }}</option>
+                {% endfor %}
             </select>
             {% endfor %}
             <button >Edit Pokemon</button>
         </form>
     </div>
+    <div class="col">
+        <div class="card">
+            <div style="display: none ;" id="version-name">{{version[1]}}</div>
+            <div style="display: none ;" id="version-id">{{version[0]}}</div>
+            <h1>{{ version[1] }}</h1>
+            <h2>{{ pokemon.pokemon_name }}</h2>
+        </div>
+    </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/static/helper.js"></script>
 <script src="/static/pokemon.js"></script>
 {% endblock %}
