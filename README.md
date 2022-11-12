@@ -1,4 +1,3 @@
-# capstone-1
 For Capstone 1: Pokemon Team Builder
 
 Description:
