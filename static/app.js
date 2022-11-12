@@ -120,11 +120,9 @@ document.addEventListener("click", e => {
 
             let damageClass = moveInfo["damage_class"]["name"]
 
-            let text = moveInfo["flavor_text_entries"][0]["flavor_text"].replace("\n", " ")
-
             let type = moveInfo["type"]["name"]
 
-            let move = createMoveInfo(name, power, pp, priority, text, damageClass, type)
+            let move = createMoveInfo(name, power, pp, priority, damageClass, type)
 
             moveDefinition.append(move)
         })

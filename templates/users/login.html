@@ -10,24 +10,45 @@
 </head>
 <body>
   <style>
+    body{
+      background-image: url("/static/images/eevee.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      margin: auto;
+    }
+    #login{
+      width: 40%;
+      margin: auto;
+      height: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
     .form-input{
         margin-top: 10px
+    }
+    #user_form{
+      width: 70%;
     }
     .container{
         margin-top: -0px;
         height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     .row{
         height: 100vh;
     }
     .container button{
         margin-top: 20px;
+        flex-direction: column;
     }
     .container form{
       text-align: center;
     }
     .container input{
-        width: 50%;
+        width: 100%;
         margin: auto;
         margin-top: 20px;
     }
@@ -40,15 +61,18 @@
     .col{
       margin-top: -10px !important;
     }
+    .btn{
+      text-align: center !important;
+    }
   </style>
-  <div class="container text-center">
+  <div class="container text-center" style="display: flex; flex-direction: column;">
     {% for category, message in get_flashed_messages(with_categories=True) %}
     <div class="alert alert-{{ category }}">{{ message }}</div>
     {% endfor %}
-    <div class="row">
-      <div class="col align-self-center">
+      <div class="card" id="login">
+        <h1>Welcome Back!</h1>
         <form method="POST" id="user_form">
-          <h1>Login</h1>
+          <h2>Login</h1>
           {{ form.hidden_tag() }}
   
           {% for field in form if field.widget.input_type != 'hidden' %}
@@ -57,14 +81,11 @@
             {% endfor %}
             {{ field(placeholder=field.label.text, class="form-control") }}
           {% endfor %}
-          <button class="btn btn-success">Login</button>
+          <div>
+            <button class="btn btn-success" style="float: left;">Login</button>
+            <a href="/signup" style="margin-top: 30px; float: right; width: 30%">Register</a>
+          </div>
         </form>
-      </div>
-      <div class="col align-self-center">
-        <h1>Welcome!</h1>
-        <h2>Don't have an account yet?</h2>
-        <p>Click here to sign up.</p>
-        <a href="/signup" class="btn btn-primary">Sign Up</a>
       </div>
     </div>
   </div>

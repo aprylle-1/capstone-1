@@ -2,51 +2,101 @@
 
 const API_URL = "https://pokeapi.co/api/v2"
 
-function createMoveInfo(name, power, pp, priority, text, damage_class, type)
+function createMoveInfo(name, power, pp, priority, damage_class, type)
 {
+    /*Name*/
+    let move = document.createElement("table")
+    move.classList.add("table")
+    move.classList.add("table-striped")
+    move.classList.add("table-bordered")
 
-    let move = document.createElement("div")
-    let nameContainer = document.createElement("h4")
-    nameContainer.innerText = `Name: ${name}`
+    let nameContainer = document.createElement("th")
+    nameContainer.innerText = name
     move.append(nameContainer)
 
-    let typeContainer = document.createElement("div")
-    let label = document.createElement("span")
-    label.innerText = "Type: "
+    /*Type*/
+    let typeContainer = document.createElement("tr")
+    
+    let label = document.createElement("td")
+    label.innerText = "Type"
     typeContainer.append(label)
 
-    let typeValue = document.createElement("span")
+    let typeValueContainer = document.createElement("td")
+    let typeValue = document.createElement("div")
     typeValue.innerText = type
     typeValue.classList.add("badge")
     typeValue.classList.add(type)
+    typeValueContainer.append(typeValue)
+    typeContainer.append(typeValueContainer)
 
-    typeContainer.append(typeValue)
-    
     move.append(typeContainer)
 
-    let textContainer = document.createElement("div")
-    textContainer.innerText = text
-    move.append(textContainer)
+    /*Damage Class*/
+    let damageClassContainer = document.createElement("tr")
+    let damageClassLabel = document.createElement("td")
+    damageClassLabel.innerText = "Damage"
+    damageClassContainer.append(damageClassLabel)
 
-    let damageClassContainer = document.createElement("div")
-    damageClassContainer.innerText = `Damage Class: ${damage_class}`
+    let damageClass = document.createElement("td")
+    damageClass.innerText = damage_class
+    damageClassContainer.append(damageClass)
     move.append(damageClassContainer)
 
-    let powerContainer = document.createElement("div")
-    powerContainer.innerText =  `Power: ${power}`
+    /*Power*/
+    let powerContainer = document.createElement("tr")
+    let powerClassLabel = document.createElement("td")
+    powerClassLabel.innerText = "Power"
+    powerContainer.append(powerClassLabel)
+    
+    let powerValueContainer = document.createElement("td")
+    powerValueContainer.innerText = power
+    powerContainer.append(powerValueContainer)
     move.append(powerContainer)
 
-    let ppContainer = document.createElement("div")
-    ppContainer.innerText = `PP: ${pp}`
+    /*Power Points*/
+    let ppContainer = document.createElement("tr")
+    let ppLabelContainer = document.createElement("td")
+    ppLabelContainer.classList.add("small")
+    ppLabelContainer.innerText = "Power Points (PP)"
+    ppContainer.append(ppLabelContainer)
+
+    let ppValueContainer = document.createElement("td")
+    ppValueContainer.innerText = pp
+    ppContainer.append(ppValueContainer)
     move.append(ppContainer)
 
-    let priorityContainer = document.createElement("div")
-    priorityContainer.innerText = `Priority: ${priority}`
+    /*Priority*/
+    let priorityContainer = document.createElement("tr")
+    let priorityLabelContainer = document.createElement("td")
+    priorityLabelContainer.innerText = "Priority"
+    priorityContainer.append(priorityLabelContainer)
+
+    let priorityValueContainer = document.createElement("td")
+    priorityValueContainer.innerText = priority
+    priorityContainer.append(priorityValueContainer)
+
     move.append(priorityContainer)
 
     return move
 }
 
+function getMoveInfo(result){
+    let moveInfo = result["data"]
+
+    let name = moveInfo["name"]
+
+    let power = moveInfo["power"]
+
+    let pp = moveInfo["pp"]
+
+    let priority = moveInfo["priority"]
+
+    let damageClass = moveInfo["damage_class"]["name"]
+
+    let type = moveInfo["type"]["name"]
+
+    return [name, power, pp, priority, damageClass, type]
+}
 function create_move_options (element, moves) {
 
     //creating default option everytime a pokemon is chosen

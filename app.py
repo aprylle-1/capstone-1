@@ -117,35 +117,72 @@ def show_all_pokemon_per_version():
         flash("Need to login to access this page", "info")
         return redirect("/login")
 
-@app.route("/pokemon/edit/<team_id>/<pokemon_id>")
+@app.route("/pokemon/edit/<team_id>/<pokemon_id>", methods=["GET"])
+def get_edit_pokemon_form(team_id, pokemon_id):
+    
+    if session.get("CURR_USER"):
+        pokemon = Pokemon.query.get(pokemon_id)
+        team = Team.query.get(team_id)
+        version_id = team.version_id
+        version_info = (requests.get(f"{API_URL}/version-group/{version_id}")).json()
+        version_name = version_info["name"]
+        moves = pokemon.get_all_moves()
+
+        move_names = []
+
+        pokedex_url = version_info["pokedexes"][0]["url"]
+        pokemons = [(pokemon["pokemon_species"]["name"], pokemon["pokemon_species"]["url"].replace(f"{API_URL}/pokemon-species", "").replace("/", "")) for pokemon in requests.get(pokedex_url).json()["pokemon_entries"]]
+
+        moves_available = (requests.get(f"{API_URL}/pokemon/{pokemon.pokemon_id}")).json()["moves"]
+
+        final_moves = []
+
+        final_moves2 = {}
+        for move_details in moves_available:
+            versions = [version["version_group"]["name"] for version in move_details["version_group_details"]]
+ 
+            if version_name in versions:
+                move_id = int(move_details["move"]["url"].replace(f"{API_URL}/move", "").replace("/", ""))
+                final_move = (move_details["move"]["name"], move_id)
+                final_moves.append(final_move)
+                final_moves2[move_id] = move_details["move"]["name"]
+
+        for move in moves:
+            move_names.append(final_moves2[move])
+        return render_template("pokemon.html", team_id=team_id, pokemon=pokemon, moves=moves, move_names=move_names, version=(version_id, version_name), pokemons=pokemons, final_moves=final_moves)
+
+    else:
+        flash("Need to login to access this page", "info")
+        return redirect("/login")
+
+@app.route("/pokemon/edit/<team_id>/<pokemon_id>", methods=["POST"])
 def edit_pokemon(team_id, pokemon_id):
     
-    pokemon = Pokemon.query.get(pokemon_id)
-    team = Team.query.get(team_id)
-    version_id = team.version_id
-    version_info = (requests.get(f"{API_URL}/version-group/{version_id}")).json()
-    version_name = version_info["name"]
-    moves = pokemon.get_all_moves()
+    if session.get("CURR_USER"):    
+        id = request.form.get("pokemon_id")
 
-    move_names = ["","","",""]
+        pokemon = Pokemon.query.get(id)
 
-    pokedex_url = version_info["pokedexes"][0]["url"]
-    pokemons = [(pokemon["pokemon_species"]["name"], pokemon["pokemon_species"]["url"].replace(f"{API_URL}/pokemon-species", "").replace("/", "")) for pokemon in requests.get(pokedex_url).json()["pokemon_entries"]]
+        pokemon_name, pokemon_id = request.form.get("pokemon").split()
+        move1_id= request.form.get("move1_id")
+        move2_id= request.form.get("move2_id")
+        move3_id = request.form.get("move3_id")
+        move4_id = request.form.get("move4_id")
 
-    moves_available = (requests.get(f"{API_URL}/pokemon/{pokemon.pokemon_id}")).json()["moves"]
+        pokemon.pokemon_id = pokemon_id
+        pokemon.pokemon_name = pokemon_name
+        pokemon.move1_id = move1_id
+        pokemon.move2_id = move2_id
+        pokemon.move3_id = move3_id
+        pokemon.move4_id = move4_id
 
-    final_moves = []
+        db.session.commit()
+    
+        return redirect(f"/teams/{team_id}")
 
-    for move_details in moves_available:
-        versions = [version["version_group"]["name"] for version in move_details["version_group_details"]]
- 
-        if version_name in versions:
-            move_id = int(move_details["move"]["url"].replace(f"{API_URL}/move", "").replace("/", ""))
-            final_moves.append((move_details["move"]["name"], move_id))
-            if move_id in moves:
-                index = moves.index(move_id)
-                move_names[index] = move_details["move"]["name"]
-    return render_template("pokemon.html", pokemon=pokemon, moves=moves, move_names=move_names, version=(version_id, version_name), pokemons=pokemons, final_moves=final_moves)
+    else:
+        flash("Need to login to access this page", "info")
+        return redirect("/login")
 
 @app.route("/teams")
 def show_all_teams():
@@ -224,6 +261,7 @@ def delete_team(team_id):
         for pokemon in pokemons:
             db.session.delete(pokemon)
             db.session.commit()
+        flash("You have successfully deleted your team", "danger")
 
         return redirect("/teams")
     
